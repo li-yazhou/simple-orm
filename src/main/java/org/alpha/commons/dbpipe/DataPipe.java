@@ -1,10 +1,8 @@
-package org.alpha.commons.dbpipe.impl;
+package org.alpha.commons.dbpipe;
 
-import org.alpha.commons.dbpipe.DBPipe;
 import org.alpha.commons.dbpipe.annotation.Table;
 import org.alpha.commons.dbpipe.domain.Filter;
 import org.alpha.commons.dbpipe.domain.PageBean;
-import org.alpha.commons.dbpipe.util.JdbcUtil;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -15,7 +13,7 @@ import java.util.Arrays;
  * @author liyazhou
  * @since 2017-07-22 16:01
  */
-public class DBPipeImpl<E> implements DBPipe<E> {
+public class DataPipe<E> implements AbstractDataPipe<E> {
 
     public E executeQuery(String rawSql) {
         return null;
@@ -24,6 +22,15 @@ public class DBPipeImpl<E> implements DBPipe<E> {
     public int executeUpdate(String rawSql){
         return -1;
     }
+
+    public int[] batch(String[] rawSqls) {
+        return new int[0];
+    }
+
+    public int[] batch(String[] rawSqls, Object[][] params) {
+        return new int[0];
+    }
+
 
     public int add(E element) {
         if (element == null)
@@ -38,7 +45,7 @@ public class DBPipeImpl<E> implements DBPipe<E> {
         Object[] params = getSqlParams(element, fields);
         System.out.println("insertSql = " + sql);
         System.out.println(Arrays.toString(params));
-        return JdbcUtil.excuteUpdate(sql, params);
+        return JdbcUtils.excuteUpdate(sql, params);
     }
 
     private Object[] getSqlParams(E element, Field[] fields) {
@@ -73,6 +80,14 @@ public class DBPipeImpl<E> implements DBPipe<E> {
         return tableAnno.name();
     }
 
+    public int update(E element) {
+        return 0;
+    }
+
+    public int update(E element, boolean bool) {
+        return 0;
+    }
+
     public int delete(Integer id, Class<E> clazz) {
         return 0;
     }
@@ -89,13 +104,6 @@ public class DBPipeImpl<E> implements DBPipe<E> {
         return null;
     }
 
-    public int update(E element) {
-        return 0;
-    }
-
-    public int update(E element, boolean bool) {
-        return 0;
-    }
 
     public E query(Integer id, Class<E> clazz) {
         return null;

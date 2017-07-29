@@ -1,4 +1,4 @@
-package org.alpha.commons.dbpipe.util;
+package org.alpha.commons.dbpipe;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -13,7 +13,7 @@ import javax.sql.DataSource;
  * @author liyazhou
  * @since 2017-07-22 17:07
  */
-public class JdbcUtil {
+public class JdbcUtils {
     // 获得数据库连接 --- 通过c3p0连接池
     // 自动读取c3p0-config.xml
     private static DataSource dataSource = new ComboPooledDataSource();

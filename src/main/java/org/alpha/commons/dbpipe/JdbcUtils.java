@@ -1,6 +1,7 @@
 package org.alpha.commons.dbpipe;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbutils.QueryRunner;
 
 import java.sql.*;
 import java.util.List;
@@ -17,17 +18,13 @@ public class JdbcUtils {
     // 获得数据库连接 --- 通过c3p0连接池
     // 自动读取c3p0-config.xml
     private static DataSource dataSource = new ComboPooledDataSource();
+    private static QueryRunner queryRunner = new QueryRunner(dataSource);
+    // private static QueryRunner queryRunner = new QueryRunner();
 
 
-    /**
-     * 获取数据库的连接池
-     * @return 数据库连接池
-     */
-    public  DataSource getDataSource() {
-        return dataSource;
+    public static QueryRunner getQueryRunner(){
+        return queryRunner;
     }
-
-
     /**
      * 获取数据库连接池中的连接
      * @return 数据库的连接

@@ -1,4 +1,4 @@
-package org.alpha.commons.dbpipe.domain;
+package org.alpha.commons.dbpipe.auxiliary;
 
 /**
  * description:

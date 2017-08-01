@@ -1,4 +1,4 @@
-package org.alpha.commons.dbpipe.annotation;
+package org.alpha.commons.dbpipe.auxiliary;
 
 import java.lang.annotation.*;
 

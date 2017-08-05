@@ -1,8 +1,8 @@
 package org.alpha.commons.dbpipe.impl;
 
-import org.alpha.commons.dbpipe.annotation.Column;
-import org.alpha.commons.dbpipe.annotation.Id;
-import org.alpha.commons.dbpipe.annotation.Table;
+import org.alpha.commons.dbpipe.auxiliary.Column;
+import org.alpha.commons.dbpipe.auxiliary.Id;
+import org.alpha.commons.dbpipe.auxiliary.Table;
 
 import java.util.Calendar;
 

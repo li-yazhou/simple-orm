@@ -23,25 +23,51 @@ import java.util.Set;
  * @author liyazhou
  * @since 2017-07-22 16:01
  */
-public class DbPipe<E> implements AbstractDbPipe<E> {
+public class DbPipe<E> extends AbstractDbPipe<E> {
 
+    /**
+     * 原始的查询操作
+     * @param rawSql 查询记录的sql语句
+     * @return 结果集
+     */
     public ResultSet executeQuery(String rawSql) {
         return null;
     }
 
+    /**
+     * 原始的更新操作
+     * @param rawSql 插入、修改或者删除记录的sql语句
+     * @return 受影响的记录数目
+     */
     public int executeUpdate(String rawSql){
         return -1;
     }
 
+    /**
+     * 批量地执行sql语句
+     * @param rawSqls sql语句数组
+     * @return 执行每条语句而受到影响的记录数目
+     */
     public int[] batch(String[] rawSqls) {
         return new int[0];
     }
 
+    /**
+     * 批量地执行sql语句
+     * @param rawSqls sql语句数组
+     * @param params 每条sql语句的占位符对应的参数
+     * @return 执行每条语句而受到影响的记录数目
+     */
     public int[] batch(String[] rawSqls, Object[][] params) {
         return new int[0];
     }
 
     /*---------------------------------添加对象到数据库---------------------------------*/
+    /**
+     * 添加一个对象
+     * @param element 要添加的对象
+     * @return 添加成功返回 1，否则返回 0
+     */
     public int add(E element) {
         if (element == null)
             throw new IllegalArgumentException("插入的元素为空.");
@@ -119,6 +145,11 @@ public class DbPipe<E> implements AbstractDbPipe<E> {
     }
 
     /*---------------------------------更新对象到数据库---------------------------------*/
+    /**
+     * 更新一个对象
+     * @param element 待更新的对象
+     * @return 若成功更新则返回1，否则返回0
+     */
     public int update(E element) {
         if (element == null)
             throw new IllegalArgumentException("插入的元素为空.");
@@ -189,6 +220,12 @@ public class DbPipe<E> implements AbstractDbPipe<E> {
     }
 
     /*---------------------------------添加对象到数据库---------------------------------*/
+    /**
+     * 更新一个对象，若对象不存在可以选择插入
+     * @param element 待更新的对象
+     * @param bool 当更新的对象不存在时，若该参数为true，则插入该对象，否则不插入该对象
+     * @return 若更新成功则返回 1，否则返回 0
+     */
     public int update(E element, boolean bool) {
         int result = update(element);
         int retval = 0;
@@ -197,11 +234,23 @@ public class DbPipe<E> implements AbstractDbPipe<E> {
     }
 
     /*---------------------------------从数据库中删除对象（记录）---------------------------------*/
+    /**
+     * 根据id删除一个对象
+     * @param id 待删除对象的id
+     * @param clazz 待删除对象的字节码
+     * @return 删除成功返回 1，否则返回 0
+     */
     public int delete(Integer id, Class<E> clazz) {
         return delete(String.valueOf(id), clazz);
     }
 
     /*---------------------------------从数据库中删除对象（记录）---------------------------------*/
+    /**
+     * 根据id删除一个对象
+     * @param id 待删除对象的id
+     * @param clazz 待删除对象的字节码
+     * @return 删除成功返回 1，否则返回 0
+     */
     public int delete(String id, Class<E> clazz) {
         String tableName = getTableName(clazz);
         String idName = getIdName(clazz);
@@ -238,11 +287,23 @@ public class DbPipe<E> implements AbstractDbPipe<E> {
     }
 
     /*---------------------------------从数据库中删除对象（记录）并返回---------------------------------*/
+    /**
+     * 根据id删除一个对象并将其返回
+     * @param id 待删除对象的id
+     * @param clazz 待删除对象的字节码
+     * @return 若成功删除该对象则将其返回，否则返回 null
+     */
     public E remove(Integer id, Class<E> clazz) {
         return remove(String.valueOf(id), clazz);
     }
 
     /*---------------------------------从数据库中删除对象（记录）并返回---------------------------------*/
+    /**
+     * 根据id删除一个对象并将其返回
+     * @param id 待删除对象的id
+     * @param clazz 待删除对象的字节码
+     * @return 若成功删除该对象则将其返回，否则返回 null
+     */
     public E remove(String id, Class<E> clazz) {
         // TODO: 2017/8/1 设置为原子性操作，如果失败则回滚
         E result = query(id, clazz);
@@ -251,11 +312,23 @@ public class DbPipe<E> implements AbstractDbPipe<E> {
     }
 
     /*---------------------------------从数据库中查找对象（记录）并返回---------------------------------*/
+    /**
+     * 根据id查找一个对象
+     * @param id 待查找对象的id
+     * @param clazz 待查找对象的字节码
+     * @return 若成功查找对象则将其返回，否则返回 null
+     */
     public E query(Integer id, Class<E> clazz) {
         return query(String.valueOf(id), clazz);
     }
 
     /*---------------------------------从数据库中查找对象（记录）并返回---------------------------------*/
+    /**
+     * 根据id查找一个对象
+     * @param id 待查找对象的id
+     * @param clazz 待查找对象的字节码
+     * @return 若成功查找对象则将其返回，否则返回 null
+     */
     public E query(String id, Class<E> clazz) {
         String tableName = getTableName(clazz);
         String idName = getIdName(clazz);
@@ -325,6 +398,11 @@ public class DbPipe<E> implements AbstractDbPipe<E> {
     }
 
     /*---------------------------------从数据库中查询表中的记录总数---------------------------------*/
+    /**
+     * 查找该类对应的表中记录的数目（对应记录的数目）
+     * @param clazz 对象的字节码
+     * @return 该类对应表中记录的数目
+     */
     public int count(Class<E> clazz) {
         String tableName = getTableName(clazz);
         String sql = "select count(*) from " + tableName;
@@ -338,6 +416,10 @@ public class DbPipe<E> implements AbstractDbPipe<E> {
     }
 
     /*---------------------------------从数据库中查询表中最大的键---------------------------------*/
+    /**
+     * 查找最大的id
+     * @return 最大的id
+     */
     public int getMaxId(Class<E> clazz){
         String tableName = getTableName(clazz);
         String idName = getIdName(clazz);

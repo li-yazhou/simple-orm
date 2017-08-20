@@ -38,6 +38,11 @@ public class JdbcUtils {
         }
     }
 
+    public static Connection getConn() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql:///dbpipe", "root", "root");
+        return conn;
+    }
 
     /**
      * 增删改
@@ -51,7 +56,7 @@ public class JdbcUtils {
         PreparedStatement pstmt =null;
         try {
             connection = getConnection();
-             pstmt = connection.prepareStatement(sql);
+            pstmt = connection.prepareStatement(sql);
             for (int i = 0; i < params.length; i ++){
                 pstmt.setObject(i+1, params[i]);
             }

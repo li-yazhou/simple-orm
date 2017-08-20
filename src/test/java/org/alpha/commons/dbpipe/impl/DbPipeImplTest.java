@@ -1,6 +1,7 @@
 package org.alpha.commons.dbpipe.impl;
 
 import org.alpha.commons.dbpipe.DbPipe;
+import simpleorm.core.SimpleDbPipe;
 import org.junit.Test;
 
 /**
@@ -23,7 +24,7 @@ public class DbPipeImplTest {
         Student student = new Student(12001, "2017-7-31 21:50:27", 25);
         // student.setBirthday(Calendar.getInstance());
         System.out.println(student);
-        int result = new DbPipe<Student>().update(student);
+        int result = new SimpleDbPipe<Student>().update(student);
         System.out.println(result);
     }
 
@@ -35,7 +36,7 @@ public class DbPipeImplTest {
     @Test
     public void queryToArray(){
         String sql = "select * from student";
-        // Student[] students = (Student[])new DbPipe<Student>().queryToArray(sql);
+        // Student[] students = (Student[])new SimpleDbPipe<Student>().queryToArray(sql);
         Object[] students = new DbPipe<Student>().queryToArray(sql);
         for(Object student : students)
             System.out.println(student);
